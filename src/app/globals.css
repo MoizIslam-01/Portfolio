@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  --color-ash: #0a0a0d;
+  --color-ash-2: #16151a;
+  --color-ash-3: #232128;
+  --color-bone: #e9e4d4;
+  --color-bone-dim: #a8a294;
+  --color-ember: #c9a24b;
+  --color-ember-bright: #f0cf7c;
+  --color-blood: #7a1f1f;
+  --color-blood-bright: #b23a3a;
+  --color-fog: #3a3a42;
+}
+
+@theme inline {
+  --color-ash: var(--color-ash);
+  --color-ash-2: var(--color-ash-2);
+  --color-ash-3: var(--color-ash-3);
+  --color-bone: var(--color-bone);
+  --color-bone-dim: var(--color-bone-dim);
+  --color-ember: var(--color-ember);
+  --color-ember-bright: var(--color-ember-bright);
+  --color-blood: var(--color-blood);
+  --color-blood-bright: var(--color-blood-bright);
+  --color-fog: var(--color-fog);
+  --font-display: var(--font-cinzel);
+  --font-sans: var(--font-inter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ash);
+  color: var(--color-bone);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-ember);
+  color: var(--color-ash);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ash);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-ember), var(--color-blood));
+  border-radius: 999px;
+}
+
+/* Ornate corner-flourish frame used on cards and panels */
+.rune-frame {
+  position: relative;
+  border: 1px solid color-mix(in srgb, var(--color-ember) 35%, transparent);
+}
+.rune-frame::before,
+.rune-frame::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-ember);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.rune-frame::before {
+  top: -1px;
+  left: -1px;
+  border-right: none;
+  border-bottom: none;
+}
+.rune-frame::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: none;
+  border-top: none;
+}
+
+.text-glow {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--color-ember) 55%, transparent);
+}
+
+.divider-rune {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-ember) 20%,
+    var(--color-ember) 80%,
+    transparent
+  );
+  opacity: 0.6;
+}
+
+.no-cursor {
+  cursor: none;
+}
