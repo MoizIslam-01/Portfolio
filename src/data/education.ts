@@ -1,8 +1,8 @@
 export const education = {
   degree: "Bachelor of Science in Computer Science",
   school: "COMSATS University Islamabad",
-  period: "September 2022 – Present",
-  gpa: "3.12",
+  period: "September 2022 – july 2026",
+  gpa: "3.25",
   coursework: [
     "Data Structures",
     "Object-Oriented Programming",

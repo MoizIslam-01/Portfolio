@@ -35,6 +35,14 @@ export const featuredProjects: FeaturedProject[] = [
       "Engineered a full-stack ecommerce application with a typed Next.js frontend and PHP/MySQL backend, featuring an admin dashboard, shopping cart, and user authentication.",
     github: "https://github.com/MoizIslam-01/Ecommerce-App",
   },
+  {
+    name: "Falling Star Game",
+    tagline: "A 2D arcade catch-and-dodge game",
+    stack: ["Unity", "C#", "Shaders"],
+    description:
+      "A 2D Unity arcade game where players move a bucket to catch falling stars while dodging bombs, with progressively increasing difficulty. Built around a centralized GameManager architecture with clean, heavily-commented code for PlayerController, Spawner, FallingObject, and UIManager components.",
+    github: "https://github.com/MoizIslam-01/FallingStarGame",
+  },
 ];
 
 export const otherProjects: OtherProject[] = [

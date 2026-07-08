@@ -111,6 +111,7 @@ body {
   opacity: 0.6;
 }
 
-.no-cursor {
-  cursor: none;
+.no-cursor,
+.no-cursor * {
+  cursor: none !important;
 }
