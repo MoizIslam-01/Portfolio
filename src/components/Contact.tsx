@@ -7,16 +7,25 @@ import SectionHeading from "@/components/SectionHeading";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle"
+  );
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subject = encodeURIComponent(`Summon sign placed by ${form.name || "a Tarnished"}`);
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name}\n${form.email}`
-    );
-    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -60,14 +69,21 @@ export default function Contact() {
 
         <button
           type="submit"
-          className="rune-frame mt-2 bg-ash-3 px-6 py-3 text-xs uppercase tracking-[0.25em] text-ember transition-colors hover:bg-ash"
+          disabled={status === "sending"}
+          className="rune-frame mt-2 bg-ash-3 px-6 py-3 text-xs uppercase tracking-[0.25em] text-ember transition-colors hover:bg-ash disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Place Summon Sign
+          {status === "sending" ? "Placing Summon Sign..." : "Place Summon Sign"}
         </button>
 
-        {sent && (
+        {status === "sent" && (
           <p className="text-center text-xs uppercase tracking-[0.2em] text-ember">
-            Your email client should be opening now — thank you for the summon.
+            Your summon sign has been placed — thank you, and I&apos;ll respond soon.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="text-center text-xs uppercase tracking-[0.2em] text-blood-bright">
+            The summon failed to reach the Lands Between. Please try again or email
+            directly.
           </p>
         )}
       </motion.form>
