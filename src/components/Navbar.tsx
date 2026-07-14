@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { motion } from "framer-motion";
 
 const SITES = [
@@ -53,7 +53,11 @@ export default function Navbar() {
                 className="group relative flex items-center gap-2 rounded px-3 py-2 text-xs uppercase tracking-[0.15em] text-bone-dim transition-colors hover:text-ember"
               >
                 <BonfireIcon active={active === site.id} />
-                <span className={active === site.id ? "text-ember" : ""}>
+                <span
+                  className={
+                    active === site.id ? "text-ember text-glow font-medium" : ""
+                  }
+                >
                   {site.label}
                 </span>
               </a>
@@ -87,7 +91,9 @@ export default function Navbar() {
                 href={`#${site.id}`}
                 onClick={() => setMenuOpen(false)}
                 className={`flex items-center gap-2 py-2.5 text-xs uppercase tracking-[0.15em] ${
-                  active === site.id ? "text-ember" : "text-bone-dim"
+                  active === site.id
+                    ? "text-ember text-glow font-medium"
+                    : "text-bone-dim"
                 }`}
               >
                 <BonfireIcon active={active === site.id} />
@@ -102,17 +108,62 @@ export default function Navbar() {
 }
 
 function BonfireIcon({ active }: { active: boolean }) {
+  const uid = useId();
+  const gradientId = `flame-${uid}`;
+
   return (
-    <svg width="10" height="10" viewBox="0 0 10 10" className="shrink-0">
-      <circle
-        cx="5"
-        cy="5"
-        r="3.5"
-        fill={active ? "#c9a24b" : "transparent"}
-        stroke="#c9a24b"
-        strokeWidth="1"
-        style={active ? { filter: "drop-shadow(0 0 4px #c9a24b)" } : undefined}
-      />
-    </svg>
+    <span className="relative flex h-4 w-4 shrink-0 items-center justify-center">
+      {active && (
+        <motion.span
+          aria-hidden="true"
+          className="absolute h-3 w-3 rounded-full bg-ember blur-[5px]"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+      <motion.svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        className="relative"
+        animate={active ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+        transition={
+          active
+            ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 0.3 }
+        }
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="1" x2="0" y2="0">
+            {active ? (
+              <>
+                <stop offset="0%" stopColor="#b23a3a" />
+                <stop offset="55%" stopColor="#c9a24b" />
+                <stop offset="100%" stopColor="#f0cf7c" />
+              </>
+            ) : (
+              <>
+                <stop offset="0%" stopColor="#2a2930" />
+                <stop offset="100%" stopColor="#4a4852" />
+              </>
+            )}
+          </linearGradient>
+        </defs>
+        <path
+          d="M12 2c-1.1 3.4-4.6 5.9-4.6 10.1A4.6 4.6 0 0 0 12 16.7a4.6 4.6 0 0 0 4.6-4.6c0-1.8-.8-3-1.6-4.1.2 1.5-.5 2.6-1.3 3-.2-1.9-1.3-3.2-1.7-4.5-.3 1.1-.8 1.9-.8 1.9C11.6 5.8 12 3.8 12 2Z"
+          fill={`url(#${gradientId})`}
+          stroke={active ? "#f0cf7c" : "#57545c"}
+          strokeWidth="0.4"
+        />
+        <ellipse
+          cx="12"
+          cy="20.5"
+          rx="4.6"
+          ry="1"
+          fill={active ? "#c9a24b" : "#3a3a42"}
+          opacity={active ? 0.6 : 0.8}
+        />
+      </motion.svg>
+    </span>
   );
 }
